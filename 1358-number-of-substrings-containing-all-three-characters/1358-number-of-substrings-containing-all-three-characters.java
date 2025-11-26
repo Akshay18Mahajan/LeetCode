@@ -1,30 +1,19 @@
-class Solution {
-    public int numberOfSubstrings(String s) 
-    {
-        int n = s.length();
-        int left=0;
-        int right=0;
-        int cnt =0;
-        Map<Character, Integer> mpp = new HashMap<>();
+ class Solution {
+    public int numberOfSubstrings(String s) {
+        int count = 0;
+        int left = 0;
+        int[] charCount = new int[3];
 
-        while(right<n)
-        {
-            char chRight= s.charAt(right);
-          mpp.put(chRight , mpp.getOrDefault(chRight ,0)+1);
+        for (int right = 0; right < s.length(); right++) {
+            charCount[s.charAt(right) - 'a']++;
 
-           while(mpp.size()==3)
-           {
-            cnt=cnt+(n-right);
-
-          char  charLeft= s.charAt(left);
-            mpp.put(charLeft , mpp.get(charLeft)-1);
-
-            if(mpp.get(charLeft)==0)
-            mpp.remove(charLeft);
-            left++;
-           }
-          right++;
+            while (charCount[0] > 0 && charCount[1] > 0 && charCount[2] > 0) {
+                count += s.length() - right;
+                charCount[s.charAt(left) - 'a']--;
+                left++;
+            }
         }
-        return cnt;
+
+        return count;
     }
 }
